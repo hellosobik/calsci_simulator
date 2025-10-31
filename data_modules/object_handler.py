@@ -1,0 +1,169 @@
+import builtins
+from process_modules.text_buffer import Textbuffer
+from process_modules.text_buffer_uploader import TextUploader as text_tbf
+
+from process_modules.menu_buffer import Menu
+from process_modules.menu_buffer_uploader import MenuUploader as menu_tbf
+
+from process_modules.form_buffer import Form
+from process_modules.form_buffer_uploader import FormUploader as form_tbf
+import pygame
+
+from keymap import Keypad
+
+from components import Button
+from constants import KeyButtons as KB, KeypadMode as KM
+from display.display import Display, WINDOWHEIGHT, page_col
+
+screen = pygame.display.set_mode((670, 1001))
+pygame.display.set_caption("Keyboard")
+clock = pygame.time.Clock()
+keypad = Keypad()
+
+screen.fill((240, 240, 240))
+
+
+def draw_buttons():
+    buttons = []
+    for x in range(5):
+        for y in range(10):
+            button = Button(text=keypad.key_out(x,y))
+            buttons.append(button)
+            button.draw(screen, 3+x, WINDOWHEIGHT//50+y)
+
+    return buttons    
+
+buttons = draw_buttons()
+class Typer:
+    def __init__(self,keypad, keypad_map):
+        self.keypad = keypad
+        self.keypad_map = keypad_map
+        self.buttons = draw_buttons() 
+
+    def start_typing(self):
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button != 1:
+                    continue
+                pos = pygame.mouse.get_pos()
+                for button in self.buttons:
+                    if button.is_clicked(pos):
+                        key = button.get_text()
+                        print("key pressed:", key)
+                        pygame.display.update()
+                        return key
+        
+
+    def change_keymaps(self, key):
+        if key == KB.ALPHA:
+            if self.keypad.state == KM.ALPHA:
+                self.keypad.key_change(KM.DEFAULT)
+            else:
+                self.keypad.key_change(KM.ALPHA)
+            self.buttons = draw_buttons()
+        
+        if key == KB.BETA:
+            if self.keypad.state == KM.BETA:
+                self.keypad.key_change(KM.DEFAULT)
+            else:
+                self.keypad.key_change(KM.BETA)
+            
+            self.buttons = draw_buttons()
+
+# from input_modules.keypad import Keypad
+# from data_modules.keypad_map import Keypad_5X8
+
+# from output_modules.st7565_spi import Display
+# import st7565 as display
+from display.display import Display
+from data_modules.characters import Characters
+from data_modules.constants import GPIOPins as pins
+
+from process_modules.navbar import Nav
+
+from process_modules.app import App
+
+from process_modules.app_downloader import Apps
+
+# import esp32
+import time
+
+current_app=["home", ""]
+data_bucket={"ssid_g" : "", "connection_status_g" : False}
+# keypad_rows=[26, 25, 33, 32, 35, 34, 39, 36] #3.0
+# keypad_cols=[15, 13, 12, 14, 27] #3.0
+# keypad_rows=[14, 21, 47, 48, 38, 39, 40, 41, 42, 1] #2.9
+# keypad_rows=[pins.GPIO14, pins.GPIO21, pins.GPIO47, pins.GPIO48, pins.GPIO38, pins.GPIO39, pins.GPIO40, pins.GPIO41, pins.GPIO42, pins.GPIO1] #2.9
+# keypad_cols=[8, 18, 17, 15, 7] #2.9                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+# keypad_cols=[pins.GPIO8,pins.GPIO18,pins.GPIO17, pins.GPIO15, pins.GPIO7] #2.9                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+# st7565_display_pins={"cs1":2, "rs":16, "rst":4, "sda":5, "sck":17}  #3.0
+# st7565_display_pins={"cs1":9, "rs":10, "rst":11, "sda":12, "sck":13} #2.9
+# display.init(st7565_display_pins["cs1"], st7565_display_pins["rs"], st7565_display_pins["rst"], st7565_display_pins["sda"], st7565_display_pins["sck"])
+# display.init(9, 11, 10, 13, 12)
+# display.init(pins.GPIO9,pins.GPIO11 , pins.GPIO10, pins.GPIO13, pins.GPIO12)
+# display.write_instruction(0x81) #for only 3.0
+# display.write_instruction(0x06)
+# keymap = Keypad_5X8()
+# keyin = Keypad(rows=keypad_rows, cols=keypad_cols)
+keypad = Keypad()
+display = Display(screen=screen, chrs=Characters())
+typer = Typer(keypad=keypad, keypad_map=None)
+
+chrs=Characters()
+builtins.chrs=chrs
+
+text=Textbuffer()
+menu=Menu()
+form=Form()
+builtins.text=text
+builtins.menu=menu
+builtins.form=form
+
+nav = Nav(disp_out=display, chrs=chrs)
+builtins.nav=nav
+
+text_refresh=text_tbf(disp_out=display, chrs=chrs, t_b=text)
+menu_refresh=menu_tbf(disp_out=display, chrs=chrs, m_b=menu)
+form_refresh=form_tbf(disp_out=display, chrs=chrs, buffer_klass=form)
+builtins.text_refresh=text_refresh
+builtins.menu_refresh=menu_refresh
+builtins.form_refresh=form_refresh
+
+app=App()
+builtins.app=App()
+
+# mac_str = ''.join('{:02X}'.format(b) for b in machine.unique_id())
+# builtins.mac_str=mac_str
+
+apps_installer=Apps()
+builtins.apps_installer=apps_installer
+
+def keypad_state_manager(x):
+    if keypad.state == "a" and x[0] == "a":
+        keypad.key_change(state="d")
+        nav.state_change(state="d")
+    elif keypad.state == "b" and x[0] == "b":
+        keypad.key_change(state="d")
+        nav.state_change(state="d")
+    else:
+        keypad.key_change(state=x[0])
+        nav.state_change(state=x[0])
+
+def keypad_state_manager_reset():
+    keypad.key_change(state="d")
+    nav.state_change(state="d")
+
+# def test_deep_sleep_awake():
+#     # -------- Hold GPIO32 HIGH --------
+#     hold_pin = machine.Pin(32, machine.Pin.OUT)
+#     hold_pin.value(1)  # Keep high
+
+#     # -------- Configure Wakeup Pin (GPIO33) --------
+#     wakeup_pin = machine.Pin(33, mode=machine.Pin.IN)
+
+#     # Enable wakeup on high level (1)
+#     esp32.wake_on_ext0(pin=wakeup_pin, level=esp32.WAKEUP_ANY_HIGH)
+
+#     print("Going to deep sleep now...")
+#     time.sleep(1)  # Give time for message to print
+#     machine.deepsleep()
