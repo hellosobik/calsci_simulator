@@ -22,23 +22,24 @@ keypad = Keypad()
 
 screen.fill((240, 240, 240))
 
+from typer import get_buttons
 
-def draw_buttons():
-    buttons = []
-    for x in range(5):
-        for y in range(10):
-            button = Button(text=keypad.key_out(x,y))
-            buttons.append(button)
-            button.draw(screen, 3+x, WINDOWHEIGHT//50+y)
+# def draw_buttons():
+#     buttons = []
+#     for x in range(5):
+#         for y in range(10):
+#             button = Button(text=keypad.key_out(x,y))
+#             buttons.append(button)
+#             button.draw(screen, 3+x, WINDOWHEIGHT//50+y)
 
-    return buttons    
-
-buttons = draw_buttons()
+    # return buttons    
+# 
+# buttons = draw_buttons()
 class Typer:
     def __init__(self,keypad, keypad_map):
         self.keypad = keypad
         self.keypad_map = keypad_map
-        self.buttons = draw_buttons() 
+        self.buttons = get_buttons(screen) 
 
     def start_typing(self):
         for event in pygame.event.get():
@@ -63,7 +64,9 @@ class Typer:
                 self.keypad.key_change(KM.DEFAULT)
             else:
                 self.keypad.key_change(KM.ALPHA)
-            self.buttons = draw_buttons()
+            print(self.keypad.state) 
+            self.buttons = get_buttons(screen,self.keypad.state)
+            
         
         if key == KB.BETA:
             if self.keypad.state == KM.BETA:
@@ -71,7 +74,7 @@ class Typer:
             else:
                 self.keypad.key_change(KM.BETA)
             
-            self.buttons = draw_buttons()
+            self.buttons =get_buttons(screen, self.keypad.state) 
 
 # from input_modules.keypad import Keypad
 # from data_modules.keypad_map import Keypad_5X8

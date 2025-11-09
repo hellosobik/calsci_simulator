@@ -1,4 +1,6 @@
 class KeyButtons:
+    RST="rst"
+    BT="bt"
     OK="ok"
     ON="on"
     NAV_D="nav_d"
