@@ -110,7 +110,7 @@ data_bucket={"ssid_g" : "", "connection_status_g" : False}
 # keyin = Keypad(rows=keypad_rows, cols=keypad_cols)
 keypad = Keypad()
 display = Display(screen=screen, chrs=Characters())
-typer = Typer(keypad=keypad, keypad_map=None)
+typer = Typer(keypad=Keypad(), keypad_map=None)
 
 chrs=Characters()
 builtins.chrs=chrs

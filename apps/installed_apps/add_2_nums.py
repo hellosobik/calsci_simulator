@@ -29,6 +29,7 @@ def add_2_nums(db={}):
             
         if inp == "alpha" or inp == "beta":
             keypad_state_manager(x=inp)
+            typer.change_keymaps(inp)
             form.update_buffer("")
 
         # if inp == "off":

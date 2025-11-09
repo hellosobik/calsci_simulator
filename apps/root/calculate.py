@@ -20,6 +20,8 @@ def calculate():
 
             x = typer.start_typing()
             # print(f"x = {x}")
+            if x=="":
+                continue
             if x == "back":
                 current_app[0]="home"
                 current_app[1] = "application_modules"
@@ -48,6 +50,7 @@ def calculate():
 
             elif x == "alpha" or x == "beta":                        
                 keypad_state_manager(x=x)
+                typer.change_keymaps(x)
                 text.update_buffer("")
 
             # elif x == "off":
