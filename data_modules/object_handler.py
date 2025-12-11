@@ -65,6 +65,8 @@ class Typer:
                         
                         
                         val = KB.get_char(key)
+                        print(key, "key")
+                        print(val, "val")
                         if key in [KB.ONE, KB.ZERO, KB.TWO, KB.THREE, KB.FOUR, KB.FIVE, KB.SIX, KB.SEVEN, KB.EIGHT, KB.NINE]:
                             val = key
 

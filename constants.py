@@ -70,7 +70,7 @@ class KeyButtons:
 
     "DECIMAL": ".",
     "ZERO": "0",
-    "COMMA": ",",
+    
 
     "ANSWER": "ANS",
     "EXE": "EXE",
@@ -85,42 +85,42 @@ class KeyButtons:
 
     "OFF": "off",
 
-    "AND": "&",
-    "EQUAL": "=",
+    
+    
     "UNDO": "↺",
 
-    "DOLLAR": "$",
-    "PERCENT": "%",
-    "SINGLE_QUOTE": "'",
-    "CARET": "^",
-    "PIPE": "|",
-    "BACKSLASH": "\\",
+    
+    
+    
+    
+    
+    
 
     "COPY": "❏",
     "PASTE": "📋",
 
-    "TILDE": "~",
-    "EXCLAMATION": "!",
-    "LESS_THAN": "<",
-    "GREATER_THAN": ">",
+    
+    
+    
+    
 
-    "LEFT_BRACKET": "[",
-    "RIGHT_BRACKET": "]",
-    "LEFT_BRACE": "{",
-    "RIGHT_BRACE": "}",
+    
+    
+    
+    
 
-    "COLON": ":",
-    "ASTERISK": "×",
-    "SLASH": "/",
-    "LEFT_PAREN": "(",
-    "RIGHT_PAREN": ")",
-    "SEMICOLON": ";",
+    
+    
+    
+    
+    
+    
 
-    "AT": "@",
-    "BACKTICK": "`",
-    "QUESTION": "?",
+    
+    
+    
 
-    "ESCAPED_QUOTE": "\"",
+    
 
     "SHOT": "◉",
     "SPACE": " "
@@ -132,7 +132,7 @@ class KeyButtons:
     @classmethod
     def get_char(cls, symbol):
         cls.create_reverse_key_map()
-        print(cls.REVERSE_KEY_MAP.get(symbol, symbol).lower())
+        # print(cls.REVERSE_KEY_MAP.get(symbol, symbol).lower())
         return cls.REVERSE_KEY_MAP.get(symbol, symbol).lower()
 
     @classmethod

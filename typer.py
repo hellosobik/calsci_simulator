@@ -104,7 +104,7 @@ def get_other_buttons(screen, alpha=False, beta=False, caps=False, state="d"):
 
             [(KB.ONE, KB.X, KB.LEFT_PAREN), 
              (KB.TWO, KB.Y, KB.RIGHT_PAREN), 
-             (KB.THREE, KB.Z, KB.COLON), 
+             (KB.THREE, KB.Z, KB.SEMICOLON), 
              (KB.MULTIPLY, "", ""), 
              (KB.MINUS, "", "")],
             
