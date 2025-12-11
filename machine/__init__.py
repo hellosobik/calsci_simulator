@@ -102,32 +102,32 @@ class Pin:
     IRQ_LOW_LEVEL=0x04
     IRQ_HIGH_LEVEL=0x08
 
-    def __init__(self, id, mode=-1, pull=-1, *, value=None, drive=0, alt=-1):
+    def __init__(self, id, mode=-1, pull=-1, *, value=0, drive=0, alt=-1):
         self.id = id
-        self.mode = mode
-        self.pull=pull
+        self.mode_value = mode
+        self.pull_mode=pull
         if mode == Pin.OUT or mode == Pin.OPEN_DRAIN:
-            self.value = value
+            self.pin_value = value
         else:
-            self.value = None
+            self.pin_value = 0
         self.drive = drive
         self.alt=alt
 
 
-    def init(self, mode=-1, pull=-1, *, value=None, drive=0, alt=-1):
-        self.mode = mode
-        self.pull = pull
-        self.value = value
-        self.drive = drive
+    def init(self, mode=-1, pull=-1, *, value=0, drive=0, alt=-1):
+        self.mode_value = mode
+        self.pull_mode = pull
+        self.pin_value = value
+        self.drive_mode = drive
         self.alt = alt
 
     def value(self, val):
         if not val:
-            return self.value
-        if self.mode == Pin.OUT or self.mode == Pin.OPEN_DRAIN:
-            self.value = val
+            return self.pin_value
+        if self.mode_value == Pin.OUT or self.mode_value == Pin.OPEN_DRAIN:
+            self.pin_value = val
         else:
-            return self.value
+            return self.pin_value
 
     def on(self):
         self.value(1)
@@ -148,24 +148,24 @@ class Pin:
 
     def mode(self, mode):
         if mode:
-            self.mode = mode
+            self.mode_value = mode
         else:
-            return self.mode
+            return self.mode_value
 
     def pull(self, pull):
         if pull:
-            self.pull = pull
+            self.pull_mode = pull
         else:
-            return self.pull
+            return self.pull_mode
 
     def drive(self, drive):
         if drive:
-            self.drive = drive
+            self.drive_mode = drive
         else:
-            return self.drive
+            return self.drive_mode
 
     def toggle(self):
-        if self.value:
+        if self.pin_value:
             self.value(0)
         else:
             self.value(1)
