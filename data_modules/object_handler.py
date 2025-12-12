@@ -35,6 +35,8 @@ from typer import get_buttons, get_other_buttons
     # return buttons    
 # 
 # buttons = draw_buttons()
+
+
 class Typer:
     def __init__(self,keypad, keypad_map):
         self.keypad = keypad
